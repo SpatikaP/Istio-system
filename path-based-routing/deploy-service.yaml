@@ -1,0 +1,140 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homepage-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      chapter: istio
+      topic: path-based-routing
+      app: homepage
+      version: v1
+  template:
+    metadata:
+      name: homepage-pod
+      labels:
+        chapter: istio
+        topic: path-based-routing
+        app: homepage
+        version: v1
+    spec:
+      containers:
+        - name: homepage-container
+          image: spatika123/homepage:v1
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homepage-svc
+  labels:
+    chapter: istio
+    topic: path-based-routing
+    app: homepage
+    version: v1
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      port: 8080
+  selector:
+    chapter: istio
+    topic: path-based-routing
+    app: homepage
+    version: v1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      chapter: istio
+      topic: path-based-routing
+      app: booking
+      version: v1
+  template:
+    metadata:
+      name: booking-pod
+      labels:
+        chapter: istio
+        topic: path-based-routing
+        app: booking
+        version: v1
+    spec:
+      containers:
+        - name: booking-container
+          image: spatika123/booking:v1
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking-svc
+  labels:
+    chapter: istio
+    topic: path-based-routing
+    app: booking
+    version: v1
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      port: 8080
+  selector:
+    chapter: istio
+    topic: path-based-routing
+    app: booking
+    version: v1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      chapter: istio
+      topic: path-based-routing
+      app: payment
+      version: v1
+  template:
+    metadata:
+      name: payment-pod
+      labels:
+        chapter: istio
+        topic: path-based-routing
+        app: payment
+        version: v1
+    spec:
+      containers:
+        - name: payment-container
+          image: spatika123/payment:v1
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-svc
+  labels:
+    chapter: istio
+    topic: path-based-routing
+    app: payment
+    version: v1
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      port: 8080
+  selector:
+    chapter: istio
+    topic: path-based-routing
+    app: payment
+    version: v1

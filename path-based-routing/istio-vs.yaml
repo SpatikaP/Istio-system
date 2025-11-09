@@ -1,0 +1,84 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: trip-portal-vs
+spec:
+  hosts:
+    - homepage-svc.prod.svc.cluster.local
+  http:
+    - name: homepage-routes
+      route:
+      - destination:
+          host: homepage-svc.prod.svc.cluster.local
+          subset: homepage-service-subset
+    - name: booking-routes
+      match:
+        - uri:
+            prefix: "/booking"
+      rewrite:
+        uri: "/"
+      route:
+      - destination:
+          host: booking-svc.prod.svc.cluster.local
+          subset: booking-service-subset
+    - name: payment-routes
+      match:
+        - uri:
+            prefix: "/payment"
+      rewrite:
+        uri: "/"
+      route:
+      - destination:
+          host: payment-svc.prod.svc.cluster.local
+          subset: payment-service-subset
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: homepage-dr
+spec:
+  host: homepage-svc.prod.svc.cluster.local
+  subsets:
+    - name: homepage-service-subset
+      labels:
+        app: homepage
+        version: v1
+        chapter: istio
+        topic: path-based-routing
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: booking-dr
+spec:
+  host: booking-svc.prod.svc.cluster.local
+  subsets:
+    - name: booking-service-subset
+      labels:
+        app: booking
+        version: v1
+        chapter: istio
+        topic: path-based-routing
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: payment-dr
+spec:
+  host: payment-svc.prod.svc.cluster.local
+  subsets:
+    - name: payment-service-subset
+      labels:
+        app: payment
+        version: v1
+        chapter: istio
+        topic: path-based-routing
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
