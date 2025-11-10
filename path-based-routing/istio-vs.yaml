@@ -4,13 +4,8 @@ metadata:
   name: trip-portal-vs
 spec:
   hosts:
-    - homepage-svc.prod.svc.cluster.local
+    - homepage-svc.default.svc.cluster.local
   http:
-    - name: homepage-routes
-      route:
-      - destination:
-          host: homepage-svc.prod.svc.cluster.local
-          subset: homepage-service-subset
     - name: booking-routes
       match:
         - uri:
@@ -19,7 +14,7 @@ spec:
         uri: "/"
       route:
       - destination:
-          host: booking-svc.prod.svc.cluster.local
+          host: booking-svc.default.svc.cluster.local
           subset: booking-service-subset
     - name: payment-routes
       match:
@@ -29,15 +24,20 @@ spec:
         uri: "/"
       route:
       - destination:
-          host: payment-svc.prod.svc.cluster.local
+          host: payment-svc.default.svc.cluster.local
           subset: payment-service-subset
+    - name: homepage-routes
+      route:
+      - destination:
+          host: homepage-svc.default.svc.cluster.local
+          subset: homepage-service-subset
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
   name: homepage-dr
 spec:
-  host: homepage-svc.prod.svc.cluster.local
+  host: homepage-svc.default.svc.cluster.local
   subsets:
     - name: homepage-service-subset
       labels:
@@ -54,7 +54,7 @@ kind: DestinationRule
 metadata:
   name: booking-dr
 spec:
-  host: booking-svc.prod.svc.cluster.local
+  host: booking-svc.default.svc.cluster.local
   subsets:
     - name: booking-service-subset
       labels:
@@ -71,7 +71,7 @@ kind: DestinationRule
 metadata:
   name: payment-dr
 spec:
-  host: payment-svc.prod.svc.cluster.local
+  host: payment-svc.default.svc.cluster.local
   subsets:
     - name: payment-service-subset
       labels:
