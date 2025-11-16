@@ -10,18 +10,9 @@ It accompanies the concepts and walkthroughs from my two-part blog series on ent
 - **mTLS policies** to lock down pod-to-pod communication  
 - **Kiali, Prometheus, and Grafana integration** for real-time mesh visualization  
 
-## Repo Structure
-istio-system/
-│── workloads/ 
-│── traffic-management/ 
-│── path-based routing/
-│── gateway/
-└── README.md
-
 ## How to Use This Repo
 1. Deploy a Kubernetes cluster (minikube, kind, EKS, GKE—your choice).  
 2. Install Istio using the official documentation.  
 3. Apply workloads and traffic rules to see live routing changes.  
 
-## Why This Exists
 This project documents my learning path with Istio and provides a simple, reproducible reference for engineers exploring real-world service mesh patterns.
